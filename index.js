@@ -46,6 +46,6 @@ app.use("/auth", authRoute);
 
 app.listen(3002, function () {
   console.log(
-    "Server running. Visit: localhost:3001/reminders in your browser 🚀"
+    "Server running. Visit: localhost:3002/reminders in your browser 🚀"
   );
 });

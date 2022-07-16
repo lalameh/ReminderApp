@@ -37,6 +37,23 @@ const database = [
       }
       throw new Error(`Couldn't find user with id: ${id}`);
     },
+    createBygitProfile: (profile) => {
+      let user = database.find((user) => user.id === profile.id);
+      if (user) {
+        return user;
+      } else {
+        user =  {
+          id: profile.id,
+          name: profile.username,
+          email: profile.profileUrl,
+          password: profile.id,
+          reminders: [{id: 1, title: profile.username, description: "Welcome", completed: false}]
+        };
+        database.push(user);
+        return user;
+      }
+      
+    }
   };
   
   module.exports = { database, userModel };

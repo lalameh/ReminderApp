@@ -1,6 +1,8 @@
+require('dotenv').config()
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const userController = require("../controller/user_controller");
+const GitHubStrategy = require('passport-github').Strategy;
 const localLogin = new LocalStrategy(
   {
     usernameField: "email",
@@ -15,6 +17,19 @@ const localLogin = new LocalStrategy(
         });
   }
 );
+
+
+passport.use(new GitHubStrategy({
+    clientID: process.env.clientID,
+    clientSecret: process.env.clientSecret,
+    callbackURL: "http://localhost:3002/auth/github/callback"
+  },
+  function (accessToken, refreshToken, profile, cb) {
+    console.log(profile);
+    let user = userController.getUserByGitHubIdOrCreate(profile);
+    return cb(null, user);
+  }
+));
 
 passport.serializeUser(function (user, done) {
   done(null, user.id);
